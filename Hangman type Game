@@ -1,0 +1,91 @@
+import random
+from os import system, name
+
+words = ["happy", "beginner", "frost", "christmas", "bubble", "year", "fortnite", "dude"]
+vowels = ["a", "e", "i", "o", "u"]
+letters = {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+winning_word = []
+player_word = []
+used_letters = []
+temp_word = []
+guesses_remaining = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+idx = random.randint(0, len(words) - 1)
+word = words[idx]
+
+word_len = len(word)
+
+for i in word:
+    winning_word.append(i)
+
+
+def check_guess(g):
+    for i in word:
+        if i == guess and i not in used_letters:
+            print("Got one!" + " at index " + str((word.index(i))))
+            player_word.insert(word.index(i), guess)
+
+            winning_word.remove(guess)
+            temp_word.pop(word.index(i))
+            temp_word.insert(word.index(i), guess)
+
+            if len(winning_word) == 0:
+                print("You win")
+                x = input()
+                return True
+
+
+def clear():
+    if name == 'nt':
+        _ = system('cls')
+
+
+def player_screen():
+    clear()
+    print("**************************************")
+    print("You have used the following letters:")
+    print(used_letters)
+    print("**************************************")
+    print("You have guessed the following letters correct:")
+    print(player_word)
+    print("**************************************")
+
+
+def print_scorecard():
+
+    guesses_remaining.pop(0)
+    print("You have {0} remaining guesses left." .format(len(guesses_remaining)))
+    if len(guesses_remaining) == 0:
+        print("Sorry you lose.")
+        x = input()
+        quit()
+
+
+#print(word)  # todo take out at production
+#print(word_len)  # todo take out at production
+#print(winning_word)  # todo take out at production
+
+print("The Word has {0} letters".format(word_len))
+mask = "= " * word_len
+temp_word = mask.split()
+print(temp_word)
+
+lose = False
+
+while not lose:
+    guess = input("What letter do you want?")
+    lose = check_guess(guess)
+    for vowel in vowels:
+        if guess == vowel:
+            used_letters.append(guess)
+
+            break
+
+    for letter in letters:
+        if guess == letter:
+            used_letters.append(guess)
+
+            break
+
+    player_screen()
+    print_scorecard()
