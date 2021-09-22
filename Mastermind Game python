@@ -1,0 +1,131 @@
+import random
+from tkinter import *
+from os import system, name
+import tkinter.font as tkFont
+from tkinter import messagebox
+
+root = Tk()
+root.geometry("200x300")
+ft = tkFont.Font(family = "Times", size=14)
+colors = ['red', 'blue', 'green']
+g = []
+master_solution = []
+guesses = []
+count = 0
+
+def get_color(c):
+
+    if c == "b":
+        g.append("blue")
+
+    elif c == "r":
+        g.append("red")
+    elif c == "g":
+        g.append("green")
+    print(g)
+    guesses.append(g)
+    tx.set(g)
+
+
+
+
+def check_guess():
+
+    if g == master_solution[0]:
+        messagebox.showinfo("WINNER","You a Winner!", )
+    else:
+        clear()
+        g.clear()
+
+        messagebox.showinfo("please try again")
+        print(len(guesses))
+        if len(guesses) == 15:
+            messagebox.showinfo("You Lose")
+           # print("You Lose")
+           
+def clear():
+    if name == 'nt':
+        _ = system('cls')
+
+def set_solution():
+    r = random.randint(0,5)
+
+    s1 = ['red', 'green', 'blue']
+    s2 = ['green','blue','red']
+    s3 = ['blue','green','red']
+    s4 = ['green','red','blue']
+    s5 = ['red','blue','green']
+    if r == 0:
+        master_solution.append(s1)
+    elif r == 1:
+        master_solution.append(s2)
+    elif r == 3:
+        master_solution.append(s3)
+    elif r == 4:
+        master_solution.append(s4)
+    elif r == 5:
+        master_solution.append(s5)
+    
+    tx.set("")    
+    print(master_solution) # Todo Remove at run time
+
+
+def replay():
+    master_solution.clear()
+    guesses.clear()
+    set_solution()
+    messagebox.showinfo("New Game", "New Game has been set")
+
+def exit():
+    quit()
+
+# b = StringVar()
+# r = StringVar()
+ms = StringVar()
+
+
+tx = StringVar()
+blue_button = Button(root, bg="blue", width = "3", text ="blue", command=lambda: get_color("b"))
+blue_button.place(x=0,y=0)
+
+red_button = Button(root,bg="red",width = "3", text = "red", command=lambda : get_color("r"))
+red_button.place(x=40,y=0)
+green_button = Button(root,bg="green",width = "3", text = "green",command=lambda : get_color("g"))
+green_button.place(x= 80, y= 0)
+enter_button = Button(root,bg="grey", width="6", text="Enter",command=lambda :check_guess())
+enter_button.place(x=120, y=0)
+text_field = Entry(root,width="32",textvariable = tx)
+text_field.place(x=0,y=45, height="212")
+
+replay_button = Button(root,bg="grey", width="10",text="Replay", command = lambda :replay())
+replay_button.place(x=10,y=266)
+exit_button = Button(root,bg="grey", width="10",text="Exit", command = lambda :exit())
+exit_button.place(x=100,y=266)
+
+set_solution()
+root.mainloop()
+
+
+
+
+
+# while True:
+#     print("color choices are {}".format(colors))
+#     color1 = input("Pick color number 1")
+#     color2 = input("Pick color number 2")
+#     color3 = input("Pick color number 3")
+#     guess = [color1,color2,color3]
+#
+#     if guess == master_solution[0]:
+#         print("Win")
+#         print(guess)
+#         break
+#     else:
+#         clear()
+#         guesses.append(guess)
+#         print(guesses)
+#         count = count + 1
+#         print("please try again")
+#         if count == 5:
+#             print("You Lose")
+#             break
